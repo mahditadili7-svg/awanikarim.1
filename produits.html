@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos Produits</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+h1{
+    text-align:center;
+    color:#8b5a2b;
+    margin:30px 0;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+    text-align:center;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+.card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.card h2{
+    margin:20px 0;
+    color:#8b5a2b;
+}
+
+.card a{
+    display:inline-block;
+    margin-bottom:20px;
+    padding:12px 25px;
+    background:#d4a373;
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+}
+
+.card a:hover{
+    background:#8b5a2b;
+}
+</style>
+</head>
+<body>
+
+    <h1>المنتوجاتنا</h1>
+
+    <div class="container">
+    
+        <div class="card">
+            <img src="kissan.jpg" alt="Verres">
+            <h2>قصم خاص : كيسان</h2>
+            <a href="kissan.html">Voir les produits</a>
+        </div>
+    
+        <div class="card">
+            <img src="casseroles.jpg" alt="Casseroles">
+            <h2>قصم خاص : كسرونات</h2>
+            <a href="kasronate.htm"l>Voir les produits</a>
+        </div>
+    
+        <div class="card">
+            <img src="bread.jpg" alt="Plats">
+            <h2>قصم خاص : هاشوار</h2>
+            <a href="brarde.html">Voir les produits</a>
+        </div>
+    
+        <div class="card">
+            <img src="ustensiles.jpg" alt="Ustensiles">
+            <h2>قصم خاص : مقراج</h2>
+            <a href="mo9raje.html">Voir les produits</a>
+        </div>
+    
+    </div>
+
+        <h1> Editore TDX </h1>
+    
+</body>
+</html>
