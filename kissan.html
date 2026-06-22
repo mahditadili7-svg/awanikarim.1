@@ -80,103 +80,129 @@ h1{
     font-weight:bold;
 }
 
-.card a{
-    display:inline-block;
+.price{
+    margin-bottom:15px;
+    color:#8b5a2b;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.card > button{
     padding:12px 25px;
     background:#d4a373;
     color:white;
-    text-decoration:none;
+    border:none;
     border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
 }
 
-.card a:hover{
+.card > button:hover{
     background:#8b5a2b;
 }
+
 .back-btn{
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: #8b5a2b;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 50px;
-    font-size: 18px;
-    cursor: pointer;
+    position:fixed;
+    top:20px;
+    left:20px;
+    background:#8b5a2b;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:50px;
+    font-size:18px;
+    cursor:pointer;
 }
 
-.back-btn:hover{
-    background: #6e4520;
+.cart-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#8b5a2b;
+    color:white;
+    padding:12px 20px;
+    text-decoration:none;
+    border-radius:30px;
 }
 </style>
 </head>
 <body>
 
-    <button class="back-btn" onclick="history.back()">← رجوع</button>
+<a href="cart.html" class="cart-btn">🛒 السلة</a>
+
+<button class="back-btn" onclick="history.back()">← رجوع</button>
 
 <h1>البرارد</h1>
 
 <div class="container">
 
-    <div class="card">
-        <img src="kissan.jpg" alt="Verres">
-        <h2>كيسان</h2>
+<div class="card">
+    <img src="kissan.jpg">
+    <h2>كيسان</h2>
 
-        <div class="quantity">
-            <button onclick="decrease(this)">➖</button>
-            <span>1</span>
-            <button onclick="increase(this)">➕</button>
-        </div>
-
-        <p class="price">${price} DH</p>
-
-        <a href="cart.html">إضافة إلى السلة</a>
+    <div class="quantity">
+        <button onclick="decrease(this)">➖</button>
+        <span>1</span>
+        <button onclick="increase(this)">➕</button>
     </div>
 
-    <div class="card">
-        <img src="casseroles.jpg" alt="Casseroles">
-        <h2>كسرونات</h2>
+    <p class="price">150 DH</p>
 
-        <div class="quantity">
-            <button onclick="decrease(this)">➖</button>
-            <span>1</span>
-            <button onclick="increase(this)">➕</button>
-        </div>
+    <button onclick="addToCart('كيسان',150,this)">
+        إضافة إلى السلة
+    </button>
+</div>
 
-        <p class="price">${price} DH</p>
+<div class="card">
+    <img src="casseroles.jpg">
+    <h2>كسرونات</h2>
 
-        <a href="cart.html">إضافة إلى السلة</a>
+    <div class="quantity">
+        <button onclick="decrease(this)">➖</button>
+        <span>1</span>
+        <button onclick="increase(this)">➕</button>
     </div>
 
-    <div class="card">
-        <img src="bread.jpg" alt="Plats">
-        <h2>براد</h2>
+    <p class="price">200 DH</p>
 
-        <div class="quantity">
-            <button onclick="decrease(this)">➖</button>
-            <span>1</span>
-            <button onclick="increase(this)">➕</button>
-        </div>
+    <button onclick="addToCart('كسرونات',200,this)">
+        إضافة إلى السلة
+    </button>
+</div>
 
-        <p class="price">${price} DH</p>
+<div class="card">
+    <img src="bread.jpg">
+    <h2>براد</h2>
 
-        <a href="cart.html">إضافة إلى السلة</a>
+    <div class="quantity">
+        <button onclick="decrease(this)">➖</button>
+        <span>1</span>
+        <button onclick="increase(this)">➕</button>
     </div>
 
-    <div class="card">
-        <img src="ustensiles.jpg" alt="Ustensiles">
-        <h2>المقراج</h2>
+    <p class="price">300 DH</p>
 
-        <div class="quantity">
-            <button onclick="decrease(this)">➖</button>
-            <span>1</span>
-            <button onclick="increase(this)">➕</button>
-        </div>
+    <button onclick="addToCart('براد',300,this)">
+        إضافة إلى السلة
+    </button>
+</div>
 
-        <p class="price">${price} DH</p>
+<div class="card">
+    <img src="ustensiles.jpg">
+    <h2>المقراج</h2>
 
-        <a href="cart.html">إضافة إلى السلة</a>
+    <div class="quantity">
+        <button onclick="decrease(this)">➖</button>
+        <span>1</span>
+        <button onclick="increase(this)">➕</button>
     </div>
+
+    <p class="price">250 DH</p>
+
+    <button onclick="addToCart('المقراج',250,this)">
+        إضافة إلى السلة
+    </button>
+</div>
 
 </div>
 
@@ -194,38 +220,30 @@ function decrease(btn){
         span.innerText = value - 1;
     }
 }
-</script>
 
-<script>
-function increase(btn){
-    let span =
-btn.parentElement.querySelector("span");
-    span.innerText = parseInt(span.innerText) +
-1;
-    updatePrice(btn)
-}
+function addToCart(name, price, btn){
 
-function decrease(btn){
-    let span =
-btn.parentElement.querySelector("span");
-    let value =parseInt(span.innerText);
+    let quantity = parseInt(
+        btn.parentElement.querySelector("span").innerText
+    );
 
-    if(value > 1){
-        span.innerText = value - 1;
-    }    
-    updatePrice(btn);
-}
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function updatePrice(btn) {
-    let span =
-btn.parentElement.querySelector("span");
-    let quantity = parseInt(span.innerText);
-    let card = btn.closest("card");
-    let pricePerItem =
-parseInt(card.querySelector(".price").innerText);
-    let newPrice = pricePerItem * quantity
+    let existing = cart.find(item => item.name === name);
 
-    card.querySelector(".price").innerText = newPrice + " DH";
+    if(existing){
+        existing.quantity += quantity;
+    }else{
+        cart.push({
+            name:name,
+            price:price,
+            quantity:quantity
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("تمت الإضافة إلى السلة ✅");
 }
 </script>
 
