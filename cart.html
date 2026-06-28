@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الاواني عبدالكريم</title>
+    <title>Panier</title>
 
     <style>
         *{
@@ -72,27 +72,74 @@
         .buttons button:hover, .buttons a:hover{
             background: #5a3e1c;
         }
-        .back-btn{
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: #8b5a2b;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 50px;
-    font-size: 18px;
-    cursor: pointer;
+    .order-btn{
+    position:relative;
+    width:260px;
+    height:55px;
+    background:#8b5a2b;
+    color:white;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    overflow:hidden;
+    font-size:18px;
+    transition:0.3s;
 }
 
-.back-btn:hover{
-    background: #6e4520;
+.order-btn:hover{
+    background:#6d4523;
+}
+
+.btn-text,
+.truck,
+.success{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    transition:all .6s ease;
+}
+
+.truck{
+    font-size:28px;
+    opacity:0;
+    left:-50px;
+}
+
+.success{
+    opacity:0;
+    color:#7CFC00;
+    font-weight:bold;
+}
+
+.order-btn.loading .btn-text{
+    opacity:0;
+}
+
+.order-btn.loading .truck{
+    opacity:1;
+    animation:drive 2s linear forwards;
+}
+
+.order-btn.done .truck{
+    opacity:0;
+}
+
+.order-btn.done .success{
+    opacity:1;
+}
+
+@keyframes drive{
+    0%{
+        left:-40px;
+    }
+    100%{
+        left:120%;
+    }
 }
     </style>
 </head>
 <body>
-
-    <button class="back-btn" onclick="history.back()">← رجوع</button>
 
     <div class="container">
         <h1>طلب الآن</h1>
@@ -108,6 +155,9 @@
             <select id="city" name="city" required>
                 <option value="">اختر المدينة</option>
                 <option value="Casablanca">Casablanca</option>
+                <option value="Rabat">Rabat</option>
+                <option value="Fès">Fès</option>
+                <option value="Marrakech">Marrakech</option>
                 <!-- زيد جميع المدن المغربية هنا -->
             </select>
 
@@ -115,36 +165,63 @@
             <input type="text" id="neighborhood" name="neighborhood" required>
 
             <div class="buttons">
-                <button type="submit">موافق</button>
-                <a id="whatsappBtn" target="_blank" href="#">اطلب عبر واتساب</a>
-            </div>
-        </form>
-    </div>
+    <button type="submit" id="orderBtn" class="order-btn">
 
-    <script>
-        const form = document.getElementById('orderForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-        
-            // جمع البيانات من الفورم
-            let name = document.getElementById('name').value;
-            let phone = document.getElementById('phone').value;
-            let city = document.getElementById('city').value;
-            let neighborhood = document.getElementById('neighborhood').value;
-            
-            // تكوين الرسالة لواتساب
-            let message = `Bonjour, voici mes coordonnées de commande :%0A`;
-            message += `Nom: ${name}%0A`;
-            message += `Téléphone: ${phone}%0A`;
-            message += `Ville: ${city}%0A`;
-            message += `Quartier: ${neighborhood}%0A`;
+        <span class="btn-text">اطلب عبر WhatsApp</span>
 
-            // إرسال الرسالة لواتساب
-            document.getElementById('whatsappBtn').href = 'https://wa.me/212661451749?text=' + encodeURIComponent(message);
-            // هنا خصك تبدل الرقم بالرقم ديالك
+        <span class="truck">
+            🚚
+        </span>
 
-            // هنا يقدر يكون إرسال البيانات عبر AJAX أو أي طريقة أخرى
-            alert('تم');
-        
+        <span class="success">
+            ✅ تم تجهيز الطلب
+        </span>
+
+    </button>
+</div>
+
+   <script>
+const orderBtn = document.getElementById("orderBtn");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    orderBtn.classList.add("loading");
+
+    setTimeout(function(){
+
+        orderBtn.classList.remove("loading");
+        orderBtn.classList.add("done");
+
+        let name = document.getElementById("name").value;
+        let phone = document.getElementById("phone").value;
+        let city = document.getElementById("city").value;
+        let neighborhood = document.getElementById("neighborhood").value;
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let message = "السلام عليكم، بغيت نطلب:\n\n";
+        let total = 0;
+
+        cart.forEach(item=>{
+            message += `🛒 ${item.name} × ${item.quantity}\n`;
+            total += item.price * item.quantity;
         });
+
+        message += `\n💰 المجموع: ${total} DH\n\n`;
+        message += `👤 الاسم: ${name}\n`;
+        message += `📞 الهاتف: ${phone}\n`;
+        message += `🏙️ المدينة: ${city}\n`;
+        message += `📍 الحي: ${neighborhood}`;
+
+        setTimeout(function(){
+            window.open(
+                "https://wa.me/2126XXXXXXXX?text=" + encodeURIComponent(message),
+                "_blank"
+            );
+        },1000);
+
+    },2000);
+
+});
 </script>
